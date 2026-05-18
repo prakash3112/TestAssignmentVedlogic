@@ -10,6 +10,21 @@ Feature: API Tests for ReqRes
   Scenario: Create a new user
     When I send a POST request to "/api/users" with body:
       | name | job  |
-      | Jane  | admin   |
+      | Prakash  | QA   |
     Then the response status should be 201
     And the response should contain the created user details
+
+  @API
+  Scenario: Update an existing user
+    When I send a PUT request to "/api/users/2" with body:
+      | name | job  |
+      | Prakash  | Admin   |
+    Then the response status should be 200
+    And the response should contain updated user details
+
+  @API
+  Scenario: Delete a user
+    When I send a DELETE request to "/api/users/2"
+    Then the response status should be 204
+    And the response should indicate successful deletion
+

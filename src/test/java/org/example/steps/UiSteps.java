@@ -62,4 +62,16 @@ public class UiSteps {
         checkoutPage.finishCheckout();
         assertTrue(checkoutPage.isCheckoutSuccessful());
     }
+
+    @Then("the cart should contain {int} item(s)")
+    public void theCartShouldContainItems(int itemCount) {
+        assertEquals(itemCount, cartPage.getCartItemCount());
+    }
+
+    @Then("the inventory page should display items")
+    public void theInventoryPageShouldDisplayItems() {
+        int itemCount = inventoryPage.getInventoryItemCount();
+        assertTrue("Inventory page should display items", itemCount > 0);
+        System.out.println("Inventory page displays " + itemCount + " items");
+    }
 }

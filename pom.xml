@@ -95,6 +95,7 @@
 
     <build>
         <plugins>
+            <!-- Maven Surefire Plugin for Parallel Test Execution -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -102,8 +103,57 @@
                 <configuration>
                     <includes>
                         <include>**/*Runner.java</include>
+                        <include>**/*Test.java</include>
                     </includes>
+                    <!-- Parallel Execution Configuration -->
+                    <!-- Execute tests in parallel by methods (test cases) -->
+                    <parallel>methods</parallel>
+                    <!-- Number of threads for parallel execution -->
+                    <threadCount>4</threadCount>
+                    <!-- Number of JVM forked for parallel execution -->
+                    <forkCount>1</forkCount>
+                    <!-- Reuse forked JVMs for all tests -->
+                    <reuseForks>true</reuseForks>
+                    <!-- Timeout for each test in seconds -->
+                    <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
                 </configuration>
+            </plugin>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Failsafe Plugin for Integration Tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <includes>
+                        <include>**/*TestRunner.java</include>
+                        <include>**/*UITestRunner.java</include>
+                    </includes>
+                    <parallel>methods</parallel>
+                    <threadCount>4</threadCount>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

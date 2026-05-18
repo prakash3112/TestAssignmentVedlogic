@@ -23,4 +23,16 @@ public class ApiClient {
                 .body(body)
                 .post(endpoint);
     }
+
+    public static Response put(String endpoint, Map<String, String> body) {
+        return RestAssured.given()
+                .header("Content-Type", "application/json")
+                .body(body)
+                .put(endpoint);
+    }
+
+    public static Response delete(String endpoint) {
+        return RestAssured.given()
+                .delete(endpoint);
+    }
 }
