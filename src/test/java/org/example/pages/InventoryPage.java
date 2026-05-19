@@ -2,12 +2,10 @@ package org.example.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.WebDriver;
 import java.util.List;
 
 public class InventoryPage extends BasePage {
-
-    @FindBy(css = ".inventory_item:first-child .btn_inventory")
-    private WebElement firstItemAddToCartButton;
 
     @FindBy(css = ".shopping_cart_link")
     private WebElement cartLink;
@@ -15,8 +13,34 @@ public class InventoryPage extends BasePage {
     @FindBy(css = ".inventory_item")
     private List<WebElement> inventoryItems;
 
+    @FindBy(css = ".inventory_item .inventory_item_name")
+    private List<WebElement> inventoryItemNames;
+
+    /**
+     * Add the first available item to the cart (kept for backward compatibility)
+     */
     public void addFirstItemToCart() {
-        click(firstItemAddToCartButton);
+        if (inventoryItems != null && !inventoryItems.isEmpty()) {
+            WebElement first = inventoryItems.get(0).findElement(org.openqa.selenium.By.cssSelector(".btn_inventory"));
+            click(first);
+        }
+    }
+
+    public void addItemToCartByName(String productName) {
+        for (int i = 0; i < inventoryItemNames.size(); i++) {
+            String name = inventoryItemNames.get(i).getText().trim();
+            if (name.equalsIgnoreCase(productName)) {
+                WebElement item = inventoryItems.get(i);
+                WebElement addButton = item.findElement(org.openqa.selenium.By.cssSelector(".btn_inventory"));
+                click(addButton);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Product not found: " + productName);
+    }
+
+    public InventoryPage(WebDriver driver) {
+        super(driver);
     }
 
     public void goToCart() {

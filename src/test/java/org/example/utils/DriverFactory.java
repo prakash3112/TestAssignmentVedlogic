@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.example.config.ConfigManager;
 
 /**
  * DriverFactory for Cross-Browser Execution
@@ -25,11 +26,15 @@ public class DriverFactory {
     private static ThreadLocal<String> currentBrowser = new ThreadLocal<>();
 
     /**
-     * Get WebDriver with default Chrome browser
-     * @return WebDriver instance
+     * Get WebDriver if already initialized. Do NOT create a new WebDriver
+     * implicitly from this method - driver creation must be controlled from
+     * hooks via getDriver(browser).
      */
     public static WebDriver getDriver() {
-        return getDriver("chrome");
+        if (driver.get() == null) {
+            throw new IllegalStateException("WebDriver is not initialized. Call getDriver(browser) from Hooks before using pages.");
+        }
+        return driver.get();
     }
 
     /**
@@ -41,10 +46,11 @@ public class DriverFactory {
      */
     public static WebDriver getDriver(String browser) {
         if (driver.get() == null) {
-            System.out.println("Initializing " + browser + " driver for Thread ID: " +
+            String effective = browser != null ? browser : ConfigManager.getDefaultBrowser();
+            System.out.println("Initializing " + effective + " driver for Thread ID: " +
                              Thread.currentThread().getId());
 
-            switch (browser.toLowerCase().trim()) {
+            switch (effective.toLowerCase().trim()) {
                 case "firefox":
                     initializeFirefox();
                     break;
@@ -56,7 +62,7 @@ public class DriverFactory {
                     initializeChrome();
                     break;
             }
-            currentBrowser.set(browser.toLowerCase());
+            currentBrowser.set(effective.toLowerCase());
         }
         return driver.get();
     }
@@ -75,9 +81,12 @@ public class DriverFactory {
             "--incognito",
             "--disable-popup-blocking",
             "--disable-extensions",
-            "--disable-blink-features=AutomationControlled",
-            "--headless=new"
+            "--disable-blink-features=AutomationControlled"
         );
+
+        if (ConfigManager.isHeadless()) {
+            chromeOptions.addArguments("--headless=new");
+        }
 
         // Performance options
         chromeOptions.addArguments("--disable-gpu", "--no-sandbox");
@@ -94,13 +103,16 @@ public class DriverFactory {
           WebDriverManager.firefoxdriver().setup();
           FirefoxOptions firefoxOptions = new FirefoxOptions();
 
-          // Browser options
-          firefoxOptions.addArguments(
-              "--width=1920",
-              "--height=1080",
-              "-private",
-              "--headless"
-          );
+           // Browser options
+           firefoxOptions.addArguments(
+               "--width=1920",
+               "--height=1080",
+               "-private"
+           );
+
+           if (ConfigManager.isHeadless()) {
+               firefoxOptions.addArguments("--headless");
+           }
 
           // Set Firefox binary path for Windows
           String firefoxPath = findFirefoxBinary();
@@ -164,9 +176,12 @@ public class DriverFactory {
             "--disable-notifications",
             "--incognito",
             "--disable-popup-blocking",
-            "--disable-extensions",
-            "--headless=new"
+            "--disable-extensions"
         );
+
+        if (ConfigManager.isHeadless()) {
+            edgeOptions.addArguments("--headless=new");
+        }
 
         // Performance options
         edgeOptions.addArguments("--disable-gpu", "--no-sandbox");

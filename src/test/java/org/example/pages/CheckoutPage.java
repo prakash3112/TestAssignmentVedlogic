@@ -2,6 +2,7 @@ package org.example.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.WebDriver;
 
 public class CheckoutPage extends BasePage {
 
@@ -23,11 +24,31 @@ public class CheckoutPage extends BasePage {
     @FindBy(css = ".complete-header")
     private WebElement completeHeader;
 
-    public void fillCheckoutInfo(String firstName, String lastName, String postalCode) {
+    public void enterFirstName(String firstName) {
         type(firstNameField, firstName);
+    }
+
+    public void enterLastName(String lastName) {
         type(lastNameField, lastName);
+    }
+
+    public void enterPostalCode(String postalCode) {
         type(postalCodeField, postalCode);
+    }
+
+    public void clickContinue() {
         click(continueButton);
+    }
+
+    public void fillCheckoutInfo(String firstName, String lastName, String postalCode) {
+        enterFirstName(firstName);
+        enterLastName(lastName);
+        enterPostalCode(postalCode);
+        clickContinue();
+    }
+
+    public CheckoutPage(WebDriver driver) {
+        super(driver);
     }
 
     public void finishCheckout() {

@@ -2,6 +2,8 @@ package org.example.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.WebDriver;
+import org.example.config.ConfigManager;
 
 public class LoginPage extends BasePage {
 
@@ -14,8 +16,12 @@ public class LoginPage extends BasePage {
     @FindBy(id = "login-button")
     private WebElement loginButton;
 
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
+
     public void navigateToLoginPage() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(ConfigManager.getUiBaseUrl());
     }
 
     public void enterUsername(String username) {
@@ -37,6 +43,7 @@ public class LoginPage extends BasePage {
     }
 
     public boolean isLoginSuccessful() {
-        return driver.getCurrentUrl().contains("inventory");
+        String url = driver.getCurrentUrl();
+        return url != null && url.contains("inventory");
     }
 }

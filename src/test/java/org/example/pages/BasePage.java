@@ -1,6 +1,7 @@
 package org.example.pages;
 
 import org.example.utils.DriverFactory;
+import org.example.config.ConfigManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -12,9 +13,14 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    public BasePage() {
-        this.driver = DriverFactory.getDriver();
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    /**
+     * BasePage must be constructed with a WebDriver instance. This avoids
+     * hidden driver creation during page object construction and makes
+     * driver lifecycle explicit (created by hooks/DriverFactory).
+     */
+    protected BasePage(org.openqa.selenium.WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getExplicitWaitSeconds()));
         PageFactory.initElements(driver, this);
     }
 

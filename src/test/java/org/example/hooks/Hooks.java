@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import org.example.utils.DriverFactory;
+import org.example.config.ConfigManager;
 
 /**
  * Hooks for Test Setup and Teardown
@@ -21,8 +22,8 @@ public class Hooks {
      */
     @Before("@UI")
     public void setUp(Scenario scenario) {
-        // Get browser from system property or feature tag or default to Chrome
-        browser = System.getProperty("browser", "chrome");
+        // Get browser from system property or feature tag or default from config
+        browser = System.getProperty("browser", ConfigManager.getDefaultBrowser());
 
         // Extract browser from scenario tags if present
         if (scenario.getSourceTagNames().contains("@Chrome")) {

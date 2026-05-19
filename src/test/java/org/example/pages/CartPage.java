@@ -2,6 +2,7 @@ package org.example.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.WebDriver;
 import java.util.List;
 
 public class CartPage extends BasePage {
@@ -18,6 +19,10 @@ public class CartPage extends BasePage {
 
     public int getCartItemCount() {
         return cartItems.size();
+    }
+
+    public CartPage(WebDriver driver) {
+        super(driver);
     }
 }
 
