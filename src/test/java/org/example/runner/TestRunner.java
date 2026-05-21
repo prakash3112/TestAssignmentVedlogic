@@ -4,11 +4,6 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
-/**
- * Test Runner for API Tests
- * Executes tests with @API tag
- * Configured for parallel execution
- */
 @RunWith(Cucumber.class)
 @CucumberOptions(
     features = "src/test/resources/features",

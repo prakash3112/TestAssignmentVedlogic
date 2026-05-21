@@ -4,10 +4,7 @@ import io.restassured.response.Response;
 import org.example.api.ApiClient;
 import org.example.models.UserDto;
 
-/**
- * Service layer wrapping ApiClient for user-related operations.
- * Keeps business logic separate from step definitions and low-level HTTP operations.
- */
+
 public class UserService {
     public Response listUsers(String endpoint) {
         return ApiClient.get(endpoint);

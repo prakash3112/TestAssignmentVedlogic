@@ -6,11 +6,6 @@ import org.example.config.ConfigManager;
 
 import java.util.Map;
 
-/**
- * Low-level API client. Keeps RestAssured configuration centralized and
- * exposes helper methods for simple HTTP verbs. Base URI is read from
- * `ConfigManager` and can be overridden via system properties.
- */
 public class ApiClient {
     static {
         RestAssured.baseURI = ConfigManager.getApiBaseUrl();

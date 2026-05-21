@@ -12,9 +12,6 @@ public class UiSteps {
     private CartPage cartPage;
     private CheckoutPage checkoutPage;
 
-    // Lazy initialization helpers - pages will be created after the driver
-    // is initialized in Hooks (DriverFactory). This avoids creating the
-    // WebDriver from page constructors before hooks run.
     private LoginPage loginPage() {
         if (loginPage == null) {
             if (org.example.utils.DriverFactory.getCurrentDriver() == null) {

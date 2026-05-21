@@ -1,13 +1,8 @@
 package org.example.config;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-/**
- * Simple configuration manager for tests.
- * Loads properties from classpath `test-config.properties` and allows
- * system property overrides.
- */
+
 public class ConfigManager {
     private static final Properties props = new Properties();
 

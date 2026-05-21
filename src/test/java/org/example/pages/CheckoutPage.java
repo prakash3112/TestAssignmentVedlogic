@@ -6,22 +6,22 @@ import org.openqa.selenium.WebDriver;
 
 public class CheckoutPage extends BasePage {
 
-    @FindBy(id = "first-name")
+    @FindBy(xpath = "//input[@id='first-name']")
     private WebElement firstNameField;
 
-    @FindBy(id = "last-name")
+    @FindBy(xpath = "//input[@name='lastName']")
     private WebElement lastNameField;
 
-    @FindBy(id = "postal-code")
+    @FindBy(xpath = "//input[@name='postalCode']")
     private WebElement postalCodeField;
 
-    @FindBy(id = "continue")
+    @FindBy(xpath = "//input[@name='continue']")
     private WebElement continueButton;
 
-    @FindBy(id = "finish")
+    @FindBy(xpath = "//button[@id='finish']")
     private WebElement finishButton;
 
-    @FindBy(css = ".complete-header")
+    @FindBy(xpath = "//h2[text()='Thank you for your order!']")
     private WebElement completeHeader;
 
     public void enterFirstName(String firstName) {

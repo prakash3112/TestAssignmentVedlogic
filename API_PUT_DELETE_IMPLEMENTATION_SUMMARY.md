@@ -1,15 +1,11 @@
 # API PUT and DELETE Implementation Summary
 
-## Overview
-This document outlines the implementation of PUT and DELETE API scenarios with comprehensive Cucumber feature files and step definitions for the Test Automation Framework.
 
----
 
-## 1. Cucumber Feature File Updates
+1. Cucumber Feature File Updates
 
-### File: `src/test/resources/features/API-Test.feature`
+File: `src/test/resources/features/API-Test.feature`
 
-#### Added Scenarios:
 
 **1.1 Update an Existing User (PUT)**
 ```gherkin

@@ -4,12 +4,6 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
-/**
- * Test Runner for UI Tests
- * Executes tests with @UI tag
- * Configured for parallel execution with cross-browser support
- * Thread-safe WebDriver management using ThreadLocal
- */
 @RunWith(Cucumber.class)
 @CucumberOptions(
     features = "src/test/resources/features",

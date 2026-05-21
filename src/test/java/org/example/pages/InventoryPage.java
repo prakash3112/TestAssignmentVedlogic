@@ -7,18 +7,15 @@ import java.util.List;
 
 public class InventoryPage extends BasePage {
 
-    @FindBy(css = ".shopping_cart_link")
+    @FindBy(xpath = "//a[@class='shopping_cart_link']")
     private WebElement cartLink;
 
-    @FindBy(css = ".inventory_item")
+    @FindBy(xpath = "//div[@class='inventory_item']")
     private List<WebElement> inventoryItems;
 
-    @FindBy(css = ".inventory_item .inventory_item_name")
+    @FindBy(xpath = "//div[@data-test='inventory-item-name']")
     private List<WebElement> inventoryItemNames;
 
-    /**
-     * Add the first available item to the cart (kept for backward compatibility)
-     */
     public void addFirstItemToCart() {
         if (inventoryItems != null && !inventoryItems.isEmpty()) {
             WebElement first = inventoryItems.get(0).findElement(org.openqa.selenium.By.cssSelector(".btn_inventory"));

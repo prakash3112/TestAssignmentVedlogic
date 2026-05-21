@@ -7,13 +7,15 @@ import org.example.config.ConfigManager;
 
 public class LoginPage extends BasePage {
 
-    @FindBy(id = "user-name")
+
+    @FindBy(xpath="//input[@id='user-name']")
     private WebElement usernameField;
 
-    @FindBy(id = "password")
+    @FindBy(xpath="//input[@name='password']")
     private WebElement passwordField;
 
-    @FindBy(id = "login-button")
+
+    @FindBy(xpath="//input[@type='submit']")
     private WebElement loginButton;
 
     public LoginPage(WebDriver driver) {

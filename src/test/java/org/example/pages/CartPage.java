@@ -7,10 +7,10 @@ import java.util.List;
 
 public class CartPage extends BasePage {
 
-    @FindBy(id = "checkout")
+    @FindBy(xpath = "//button[@id='checkout']")
     private WebElement checkoutButton;
 
-    @FindBy(css = ".cart_item")
+    @FindBy(xpath = "//div[@class='cart_item']")
     private List<WebElement> cartItems;
 
     public void proceedToCheckout() {

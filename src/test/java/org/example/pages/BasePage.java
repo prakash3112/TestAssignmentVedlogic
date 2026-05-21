@@ -13,11 +13,7 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    /**
-     * BasePage must be constructed with a WebDriver instance. This avoids
-     * hidden driver creation during page object construction and makes
-     * driver lifecycle explicit (created by hooks/DriverFactory).
-     */
+
     protected BasePage(org.openqa.selenium.WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(ConfigManager.getExplicitWaitSeconds()));

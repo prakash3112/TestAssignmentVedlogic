@@ -10,26 +10,13 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.example.config.ConfigManager;
 
-/**
- * DriverFactory for Cross-Browser Execution
- * Thread-safe WebDriver management using ThreadLocal
- * Supports Chrome, Firefox, and Edge browsers
- * Optimized for parallel test execution
- */
+
 public class DriverFactory {
 
-    /**
-     * ThreadLocal variable to maintain separate WebDriver instance per thread
-     * Ensures thread safety in parallel execution
-     */
+
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static ThreadLocal<String> currentBrowser = new ThreadLocal<>();
 
-    /**
-     * Get WebDriver if already initialized. Do NOT create a new WebDriver
-     * implicitly from this method - driver creation must be controlled from
-     * hooks via getDriver(browser).
-     */
     public static WebDriver getDriver() {
         if (driver.get() == null) {
             throw new IllegalStateException("WebDriver is not initialized. Call getDriver(browser) from Hooks before using pages.");
@@ -37,13 +24,7 @@ public class DriverFactory {
         return driver.get();
     }
 
-    /**
-     * Get WebDriver for specified browser
-     * Thread-safe implementation for parallel execution
-     *
-     * @param browser Browser type (chrome, firefox, edge)
-     * @return WebDriver instance
-     */
+
     public static WebDriver getDriver(String browser) {
         if (driver.get() == null) {
             String effective = browser != null ? browser : ConfigManager.getDefaultBrowser();
@@ -67,21 +48,14 @@ public class DriverFactory {
         return driver.get();
     }
 
-    /**
-     * Initialize Chrome WebDriver with optimized options
-     */
+
     private static void initializeChrome() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
 
         // Browser options
         chromeOptions.addArguments(
-            "--start-maximized",
-            "--disable-notifications",
-            "--incognito",
-            "--disable-popup-blocking",
-            "--disable-extensions",
-            "--disable-blink-features=AutomationControlled"
+
         );
 
         if (ConfigManager.isHeadless()) {
@@ -96,18 +70,14 @@ public class DriverFactory {
                          Thread.currentThread().getId());
     }
 
-     /**
-      * Initialize Firefox WebDriver with optimized options
-      */
+
       private static void initializeFirefox() {
           WebDriverManager.firefoxdriver().setup();
           FirefoxOptions firefoxOptions = new FirefoxOptions();
 
            // Browser options
            firefoxOptions.addArguments(
-               "--width=1920",
-               "--height=1080",
-               "-private"
+
            );
 
            if (ConfigManager.isHeadless()) {
@@ -126,14 +96,11 @@ public class DriverFactory {
                            Thread.currentThread().getId());
       }
 
-      /**
-       * Find Firefox binary path on the system
-       */
       private static String findFirefoxBinary() {
           String osName = System.getProperty("os.name").toLowerCase();
 
           if (osName.contains("win")) {
-              // Windows paths for Firefox
+
               String[] firefoxPaths = {
                   "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
                   "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe",
@@ -147,13 +114,13 @@ public class DriverFactory {
                   }
               }
           } else if (osName.contains("mac")) {
-              // macOS path
+
               String macPath = "/Applications/Firefox.app/Contents/MacOS/firefox";
               if (new java.io.File(macPath).exists()) {
                   return macPath;
               }
           } else if (osName.contains("linux")) {
-              // Linux path
+
               String linuxPath = "/usr/bin/firefox";
               if (new java.io.File(linuxPath).exists()) {
                   return linuxPath;
@@ -163,27 +130,19 @@ public class DriverFactory {
           return null;
       }
 
-    /**
-     * Initialize Edge WebDriver with optimized options
-     */
     private static void initializeEdge() {
         WebDriverManager.edgedriver().setup();
         EdgeOptions edgeOptions = new EdgeOptions();
 
         // Browser options
         edgeOptions.addArguments(
-            "--start-maximized",
-            "--disable-notifications",
-            "--incognito",
-            "--disable-popup-blocking",
-            "--disable-extensions"
+
         );
 
         if (ConfigManager.isHeadless()) {
             edgeOptions.addArguments("--headless=new");
         }
 
-        // Performance options
         edgeOptions.addArguments("--disable-gpu", "--no-sandbox");
 
         driver.set(new EdgeDriver(edgeOptions));
@@ -191,27 +150,16 @@ public class DriverFactory {
                          Thread.currentThread().getId());
     }
 
-    /**
-     * Get current WebDriver instance
-     * @return WebDriver instance or null if not initialized
-     */
+
     public static WebDriver getCurrentDriver() {
         return driver.get();
     }
 
-    /**
-     * Get current browser name
-     * @return Browser name (chrome, firefox, edge)
-     */
     public static String getCurrentBrowser() {
         String browser = currentBrowser.get();
         return browser != null ? browser : "chrome";
     }
 
-    /**
-     * Quit WebDriver and clean up resources
-     * Thread-safe implementation
-     */
     public static void quitDriver() {
         WebDriver webDriver = driver.get();
         if (webDriver != null) {
@@ -231,19 +179,13 @@ public class DriverFactory {
         }
     }
 
-    /**
-     * Reset ThreadLocal variables
-     * Useful for test cleanup
-     */
+
     public static void resetThreadLocal() {
         driver.remove();
         currentBrowser.remove();
     }
 
-    /**
-     * Check if WebDriver is initialized
-     * @return true if WebDriver is initialized, false otherwise
-     */
+
     public static boolean isDriverInitialized() {
         return driver.get() != null;
     }
